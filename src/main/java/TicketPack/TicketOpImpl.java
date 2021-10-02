@@ -4,6 +4,8 @@ import PessengerPack.Passenger;
 import TrainPack.Train;
 import TrainPack.TrainOpImpl;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -12,6 +14,8 @@ import java.util.TreeMap;
 public class TicketOpImpl implements TicketOp{
     TreeMap<Passenger,Double> passengers=new TreeMap<Passenger, Double>();
     TrainOpImpl TOI=new TrainOpImpl();
+    private String sr;
+    private StringBuilder fText=null;
 
 
     @Override
@@ -32,6 +36,7 @@ public class TicketOpImpl implements TicketOp{
         char ch1=train.getDest().charAt(0);
         String s2=Character.toString(ch1);
         String s=s1+s2+"_"+fstr+"_"+s3;
+        sr=s;
         return (s);
     }
 
@@ -98,12 +103,26 @@ public class TicketOpImpl implements TicketOp{
             sb.append(entry.getValue());
 
         }
+        fText=sb;
         return sb;
     }
 
     @Override
     public void writeTicket() {
 
+        File file=new File("C:\\Users\\user124\\Desktop\\"+sr+".txt");
+        try
+                (
+            FileOutputStream output=new FileOutputStream(file);
+            BufferedOutputStream bs=new BufferedOutputStream(output);
+        ) {
+            bs.write(fText.toString().getBytes());
+            System.out.println("file has been created successfully");
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

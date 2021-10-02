@@ -67,6 +67,7 @@ public class mainUI {
             //System.out.println("total fare is : " + fprice);
             String st=gPrice.generatePNR(train_no,d);
             System.out.println("Your ticket has been booked successfully with pnr no.:"+st);
+            gPrice.writeTicket();
 
         }
         else
