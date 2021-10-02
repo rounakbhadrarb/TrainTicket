@@ -14,6 +14,7 @@ public class ConnectionToDatabase {
         catch(SQLException e)
         {
             e.printStackTrace();
+            //System.out.println("Train with given number doesn't exit");
         }
         return con;
 

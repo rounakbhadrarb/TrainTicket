@@ -94,21 +94,26 @@ public class TicketOpImpl implements TicketOp{
     public StringBuilder generateTicket(int train_no,String str,double price,Passenger p) {
         Train train=TOI.getTrainDetails(train_no);
         StringBuilder sb=new StringBuilder();
-        sb.append(generatePNR(train_no,str)+","
-                +train.getTrainNo()+","+train.getTrainName()+","+train.getSource()+","
-                +train.getDest()+","+str+","+calculateTotalTicketPrice(p,price));
+        sb.append("PNR\t\t  : "+generatePNR(train_no,str)+"\r\nTrain no\t  : "
+                +train.getTrainNo()+"\r\nTrain Name        : "+train.getTrainName()+"\r\nFrom\t\t  : "+train.getSource()+"\r\nTo\t\t  : "
+                +train.getDest()+"\r\nTravel Date       : "+str+"\r\n\r\nPassengers : \r\nName\t\tAge\t\tGender\t\tFare");
         for(Map.Entry<Passenger,Double> entry:passengers.entrySet())
         {
+            //String key=entry.getKey()
             sb.append(entry.getKey());
             sb.append(entry.getValue());
 
         }
+        sb.append("\r\n\r\nTotal Price  : "+calculateTotalTicketPrice(p,price));
+
+
         fText=sb;
         return sb;
     }
 
     @Override
     public void writeTicket() {
+        System.out.println("Your ticket has been booked successfully with pnr no.:"+sr);
 
         File file=new File("C:\\Users\\user124\\Desktop\\"+sr+".txt");
         try
@@ -117,7 +122,7 @@ public class TicketOpImpl implements TicketOp{
             BufferedOutputStream bs=new BufferedOutputStream(output);
         ) {
             bs.write(fText.toString().getBytes());
-            System.out.println("file has been created successfully");
+            System.out.println("you can download your ticket from desktop. Enjoy your Travelling");
 
         }
         catch (IOException e) {

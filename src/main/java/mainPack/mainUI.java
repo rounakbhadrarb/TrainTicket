@@ -14,67 +14,71 @@ import java.util.Scanner;
 
 public class mainUI {
     
-    public static void main(String[] args)
-    {
-        TrainOpImpl TOI=new TrainOpImpl();
-        TicketOpImpl gPrice=new TicketOpImpl();
-        DateComparison dc=new DateComparison();
+    public static void main(String[] args) {
+        TrainOpImpl TOI = new TrainOpImpl();
+        TicketOpImpl gPrice = new TicketOpImpl();
+        DateComparison dc = new DateComparison();
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. Book Ticket ");
+            System.out.println("2. Exit");
+            System.out.println("Enter your choice : ");
+            int choice=sc.nextInt();
+            switch (choice) {
+                case 1: {
+                    System.out.println("enter the train no between 1001 to 1006 ");
+                    int train_no = sc.nextInt();
+                    if(train_no>=1001 && train_no<=1006) {
+                        Date date = null;
+                        System.out.println("enter date in yyyy/MM/dd format: ");
+                        String d = sc.next();
+                        try {
+                            date = new SimpleDateFormat("yyyy/MM/dd").parse(d);
 
-        Scanner sc=new Scanner(System.in);
-        System.out.println("enter the train no");
-        int train_no=sc.nextInt();
-        //date
-        Date date=null;
-        System.out.println("enter date in yyyy/MM/dd format: ");
-        String d=sc.next();
-        try {
-            /*SimpleDateFormat formatter=new SimpleDateFormat("yyyy/MM/dd");
-            Date date=formatter.parse(d);
-            System.out.println(formatter.format(date));*/
-            date=new SimpleDateFormat("yyyy/MM/dd").parse(d);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-        }
-        catch(ParseException e)
-        {
-            e.printStackTrace();
-        }
+                        if (dc.dateCom(date)) {
+                            System.out.println("enter the number of passengers");
+                            int pNo = sc.nextInt();
+                            double price = 0;
+                            Passenger ps = null;
+                            while (pNo != 0) {
+                                System.out.println("enter the passenger name");
+                                String pName = sc.next();
+                                System.out.println("enter passenger age:");
+                                int age = sc.nextInt();
+                                System.out.println("enter gender M/F");
+                                char gen = sc.next().charAt(0);
+                                ps = new Passenger(pName, age, gen);
+                                price = gPrice.calcPassengerFare(train_no, age, gen);
+                                gPrice.calculateTotalTicketPrice(ps, price);
+                                pNo--;
 
-        if(dc.dateCom(date)) {
-            System.out.println("proceed further");
-            System.out.println("enter the number the passenger");
-            int pNo = sc.nextInt();
-            double price = 0;
-            Passenger ps =null;
-            while (pNo != 0) {
-                System.out.println("enter the passenger name");
-                String pName = sc.next();
-                System.out.println("enter passenger age:");
-                int age = sc.nextInt();
-                System.out.println("enter gender M/F");
-                char gen = sc.next().charAt(0);
+                            }
+                            gPrice.generateTicket(train_no, d, price, ps);
+                            gPrice.writeTicket();
+                        } else {
+                            System.out.println("Date must me after your journey date. Your journey ends here");
 
-                ps = new Passenger(pName, age, gen);
-
-                price = gPrice.calcPassengerFare(train_no, age, gen);
-                //fprice = gPrice.calculateTotalTicketPrice(ps, price);
-                gPrice.calculateTotalTicketPrice(ps,price);
-
-
-                pNo--;
-
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("Train with given no doesn't exist\n");
+                    }
+                    System.out.println(" \n\nIf you want to book another ticket press 1 or press 2 for exit\n");
+                    break;
+                }
+                case 2:
+                {
+                    sc.close();
+                    System.out.println("Thank you for visiting......");
+                    System.exit(0);
+                }
             }
-            System.out.println(gPrice.generateTicket(train_no,d,price,ps));
-            //System.out.println("total fare is : " + fprice);
-            String st=gPrice.generatePNR(train_no,d);
-            System.out.println("Your ticket has been booked successfully with pnr no.:"+st);
-            gPrice.writeTicket();
 
         }
-        else
-        {
-            System.out.println("Date must me after your journey date. Your journey ends here");
-
-        }
-
     }
 }

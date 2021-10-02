@@ -26,11 +26,10 @@ public class Passenger implements Comparable<Passenger> {
 
     @Override
     public String toString() {
-        return "Passenger{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", gender=" + gender +
-                '}';
+        return "\r\n"
+                 + name +
+                "\t\t" + age +
+                "\t\t" + gender+"\t\t";
     }
 
 
