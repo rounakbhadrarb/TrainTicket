@@ -6,14 +6,40 @@ import TrainPack.TrainOpImpl;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 public class TicketOpImpl implements TicketOp{
     TreeMap<Passenger,Double> passengers=new TreeMap<Passenger, Double>();
     TrainOpImpl TOI=new TrainOpImpl();
+    //private int train_no;
+    /*public int getTrainNo(int no)
+    {
+        train_no+=no;
+        return train_no;
+    }*/
+    //Train train=TOI.getTrainDetails(train_no);
     @Override
-    public String generatePNR() {
-        return null;
+    public String generatePNR(int train_no,String str) {
+        Train train=TOI.getTrainDetails(train_no);
+        //String source=train.getSource().charAt(0);
+        //char dest=train.getDest().charAt(0);
+        String[] word=str.split("/");
+        String fstr="";
+        for (String s:word)
+        {
+            fstr+=s;
+        }
+
+        Random rand=new Random();
+        int count=(rand.nextInt(100)+100);
+        String s3=Integer.toString(count);
+        char ch=train.getSource().charAt(0);
+        String s1=Character.toString(ch);
+        char ch1=train.getDest().charAt(0);
+        String s2=Character.toString(ch1);
+        String s=s1+s2+"_"+fstr+"_"+s3;
+        return (s);
     }
 
     @Override
@@ -69,6 +95,7 @@ public class TicketOpImpl implements TicketOp{
 
     @Override
     public StringBuilder generateTicket() {
+
         return null;
     }
 
