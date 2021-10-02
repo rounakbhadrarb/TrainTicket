@@ -23,7 +23,6 @@ public class mainUI {
         Scanner sc=new Scanner(System.in);
         System.out.println("enter the train no");
         int train_no=sc.nextInt();
-       // gPrice.getTrainNo(train_no);
         //date
         Date date=null;
         System.out.println("enter date in yyyy/MM/dd format: ");
@@ -44,7 +43,8 @@ public class mainUI {
             System.out.println("proceed further");
             System.out.println("enter the number the passenger");
             int pNo = sc.nextInt();
-            double fprice = 0;
+            double price = 0;
+            Passenger ps =null;
             while (pNo != 0) {
                 System.out.println("enter the passenger name");
                 String pName = sc.next();
@@ -53,15 +53,18 @@ public class mainUI {
                 System.out.println("enter gender M/F");
                 char gen = sc.next().charAt(0);
 
-                Passenger ps = new Passenger(pName, age, gen);
+                ps = new Passenger(pName, age, gen);
 
-                double price = gPrice.calcPassengerFare(train_no, age, gen);
-                fprice = gPrice.calculateTotalTicketPrice(ps, price);
+                price = gPrice.calcPassengerFare(train_no, age, gen);
+                //fprice = gPrice.calculateTotalTicketPrice(ps, price);
+                gPrice.calculateTotalTicketPrice(ps,price);
+
 
                 pNo--;
 
             }
-            System.out.println("total fare is : " + fprice);
+            System.out.println(gPrice.generateTicket(train_no,d,price,ps));
+            //System.out.println("total fare is : " + fprice);
             String st=gPrice.generatePNR(train_no,d);
             System.out.println("Your ticket has been booked successfully with pnr no.:"+st);
 

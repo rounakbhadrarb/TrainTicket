@@ -44,11 +44,11 @@ public class Passenger implements Comparable<Passenger> {
         {
             if (((o.getName()).compareTo(name))>0)
             {
-                return 1;
+                return -1;
             }
             else
             {
-                return -1;
+                return 1;
             }
         }
     }

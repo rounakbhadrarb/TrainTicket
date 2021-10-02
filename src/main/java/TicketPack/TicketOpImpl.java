@@ -12,18 +12,11 @@ import java.util.TreeMap;
 public class TicketOpImpl implements TicketOp{
     TreeMap<Passenger,Double> passengers=new TreeMap<Passenger, Double>();
     TrainOpImpl TOI=new TrainOpImpl();
-    //private int train_no;
-    /*public int getTrainNo(int no)
-    {
-        train_no+=no;
-        return train_no;
-    }*/
-    //Train train=TOI.getTrainDetails(train_no);
+
+
     @Override
     public String generatePNR(int train_no,String str) {
         Train train=TOI.getTrainDetails(train_no);
-        //String source=train.getSource().charAt(0);
-        //char dest=train.getDest().charAt(0);
         String[] word=str.split("/");
         String fstr="";
         for (String s:word)
@@ -92,15 +85,25 @@ public class TicketOpImpl implements TicketOp{
         }
         return value;
     }
-
     @Override
-    public StringBuilder generateTicket() {
+    public StringBuilder generateTicket(int train_no,String str,double price,Passenger p) {
+        Train train=TOI.getTrainDetails(train_no);
+        StringBuilder sb=new StringBuilder();
+        sb.append(generatePNR(train_no,str)+","
+                +train.getTrainNo()+","+train.getTrainName()+","+train.getSource()+","
+                +train.getDest()+","+str+","+calculateTotalTicketPrice(p,price));
+        for(Map.Entry<Passenger,Double> entry:passengers.entrySet())
+        {
+            sb.append(entry.getKey());
+            sb.append(entry.getValue());
 
-        return null;
+        }
+        return sb;
     }
 
     @Override
     public void writeTicket() {
+
 
     }
 }
